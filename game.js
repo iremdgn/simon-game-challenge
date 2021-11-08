@@ -5,6 +5,13 @@ var gamePattern = [];
 
 var userClickedPattern = [];
 
+var level = 0;
+
+$(document).keypress(function(e) {
+    nextSequence();
+
+    $("h1").text("Level "+ level);
+});
 
 $(".btn").click(function() {
 

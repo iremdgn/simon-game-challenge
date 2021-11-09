@@ -17,15 +17,6 @@ $(document).keypress(function () {
     }
 });
 
-
-$(document).click(function () {
-    if (!start) {
-        $("#level-title").text("Level " + level);
-        nextSequence();
-        start = true;
-    }
-});
-
 $(".btn").click(function () {
 
     var userChosenColour = $(this).attr("id");

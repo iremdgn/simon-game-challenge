@@ -9,38 +9,63 @@ var start = false;
 
 var level = 0;
 
-$(document).keypress(function() {
-    if(!start) {
-        $("#level-title").text("Level "+ level);
+$(document).keypress(function () {
+    if (!start) {
+        $("#level-title").text("Level " + level);
         nextSequence();
         start = true;
     }
 });
 
-$(".btn").click(function() {
+$(".btn").click(function () {
 
-   var userChosenColour = $(this).attr("id");
-   userClickedPattern.push(userChosenColour);
+    var userChosenColour = $(this).attr("id");
+    userClickedPattern.push(userChosenColour);
 
-   playSound(userChosenColour);
-   animatePress(userChosenColour);
+    playSound(userChosenColour);
+    animatePress(userChosenColour);
 
+    checkAnswer(userClickedPattern.length - 1);
 });
+
+function checkAnswer(currentLevel) {
+    if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
+
+        if (gamePattern.length === userClickedPattern.length) {
+
+            setTimeout(function () {
+                nextSequence();
+            }, 1000);
+        }
+    } else {
+        var wrong = new Audio("sounds/wrong.mp3");
+        wrong.play();
+
+        $("body").addClass("game-over");
+        setTimeout(function () {
+            $("body").removeClass("game-over");
+        }, 200);
+
+        $("h1").text("Game Over, Press Any Key to Restart");
+    }
+}
 
 function nextSequence() {
 
-    level++; 
+    userClickedPattern = [];
+
+    level++;
     $("#level-title").text("Level " + level);
 
     var randomNumber = Math.floor(Math.random() * 4);
     var randomChosenColour = buttonColors[randomNumber];
     gamePattern.push(randomChosenColour);
 
-    $("#" + randomChosenColour).fadeIn(100).fadeOut(100).fadeIn(100);  
+    $("#" + randomChosenColour).fadeIn(100).fadeOut(100).fadeIn(100);
     playSound(randomChosenColour);
-  
-}
 
+    checkAnswer(gamePattern);
+}
 
 function playSound(name) {
     var audio = new Audio("sounds/" + name + ".mp3");
@@ -50,9 +75,8 @@ function playSound(name) {
 function animatePress(currentColour) {
     $("." + currentColour).addClass("pressed");
 
-    setTimeout(function() {
+    setTimeout(function () {
         $("." + currentColour).removeClass("pressed");
     }, 100);
 }
-
 

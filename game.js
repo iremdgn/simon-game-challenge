@@ -38,8 +38,7 @@ function checkAnswer(currentLevel) {
             }, 1000);
         }
     } else {
-        var wrong = new Audio("sounds/wrong.mp3");
-        wrong.play();
+        playSound("wrong");
 
         $("body").addClass("game-over");
         setTimeout(function () {
@@ -69,12 +68,6 @@ function nextSequence() {
     checkAnswer(gamePattern);
 }
 
-function startOver() {
-    gamePattern = [];
-    level = 0;
-    start = false;
-}
-
 function playSound(name) {
     var audio = new Audio("sounds/" + name + ".mp3");
     audio.play();
@@ -88,3 +81,8 @@ function animatePress(currentColour) {
     }, 100);
 }
 
+function startOver() {
+    gamePattern = [];
+    level = 0;
+    start = false;
+}
